@@ -5,6 +5,9 @@
 /public/storage
 /storage/*.key
 /vendor
+/containers/nginx/log/*
+/containers/nginx/certs/*
+/redis/*
 .env
 .env.backup
 .env.production

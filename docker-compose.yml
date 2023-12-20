@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: mortez4/nginx:latest
+    ports:
+      - 81:80
+    volumes:
+      - .:/var/www/html
+      - ./containers/nginx/log:/var/log/nginx
+      - ./containers/nginx/conf:/etc/nginx/conf.d
+      - ./containers/nginx/certs:/etc/nginx/certs
+    depends_on:
+      - php
+
+  php:
+    image: mortez4/php-fpm:8.2
+    volumes:
+        - .:/var/www/html
+        - ./containers/php/conf:/etc/php/conf.d
+    depends_on:
+        - redis
+        - composer
+        - assets
+
+  assets:
+    image: node:current-alpine
+    volumes:
+      - ./:/var/www/html
+    command: ['/bin/sh', '-c', 'npm install 2>/dev/null & npm run build 2>/dev/null']
+    working_dir: /var/www/html
+
+  composer:
+    image: composer:2.3
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html
+    command: ['/bin/sh', '-c', 'composer install --no-dev --optimize-autoloader 2>/dev/null']
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6380:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - ./containers/redis/data:/data
