@@ -7,13 +7,14 @@ It's a market place for people to sell car parts and/or car with parts
 ToDo:
 - ~~setup project~~
 - setup docker for deployment
-  - php
-  - nginx
-  - redis for pulse ingestion and queue
-  - setup mysql on composer for online dev env
-  - setup rds for production
+  - ~~php~~
+  - ~~nginx~~
+  - ~~redis for pulse ingestion and queue~~
+  - ~~setup mysql on composer for online dev env~~
+  - ~~setup rds for production~~
 - deploy on aws (this might be expensive to run, but lessons are priceless)
-  - setup a new account for free tier
+  - ~~setup a new account for free tier~~
+  - setup dev env on an ec2 instance
   - prepare cloud formation file
   - setup with scaling group 
 - implement the existing functionalities from old project using TDD Pest
