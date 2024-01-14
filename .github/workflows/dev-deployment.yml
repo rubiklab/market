@@ -8,18 +8,15 @@ on:
 
 jobs:
   deploy:
+    name: Deploy to AWS
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up AWS CLI
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Deploy
+        uses: appleboy/ssh-action@v0.1.8
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Deploy to AWS EC2
-        run: ssh ${{ secrets.DEV_HOST }} "cd /var/www/html && git pull && docker-compose down && docker-compose up -d"
+          host: ${{ secrets.DEV_HOST }}
+          port: 22
+          username: ec2-user
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: "cd /var/www/html && git pull origin main && docker-compose down && docker-compose up -d"
