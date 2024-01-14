@@ -1,5 +1,5 @@
 #!/bin/bash
-docker-comopse down;
+docker-compose down;
 git pull origin main;
 docker-compose up -d;
-docker-comopse run php php artisan migrate;
+docker-compose run php php artisan migrate;

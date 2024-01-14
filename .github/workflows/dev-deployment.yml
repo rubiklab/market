@@ -20,4 +20,4 @@ jobs:
           username: ec2-user
           key: ${{ secrets.PRIVATE_KEY }}
           debug: true
-          script: "sudo chmod +x ~/market/.scripts/deploy.sh; bash ~/market/.scripts/deploy.sh"
+          script: "bash ~/market/.scripts/deploy.sh"
