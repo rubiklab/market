@@ -12,15 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
       - name: Deploy
-        env:
-          PRIVATE_KEY: ${{ secrets.DEV_PRIVATE_KEY }}
-          HOSTNAME: ${{secrets.DEV_HOST}}
-          USER_NAME: ${{secrets.DEV_USER_NAME}}
-        run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
-              # Now we have got the access of EC2 and we will start the deploy .
-              bash ~/market/.scripts/deploy.sh
-              '
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.DEV_HOST }}
+          port: 22
+          username: ${{ secrets.DEV_USER_NAME }}
+          key: ${{ secrets.DEV_PRIVATE_KEY }}
+          debug: true
+          script: "cd ~/market; docker-compose down; git pull origin main;  docker-compose up -d; docker-compose run php php artisan migrate;"
