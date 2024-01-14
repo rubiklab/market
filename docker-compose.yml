@@ -4,7 +4,7 @@ services:
   nginx:
     image: mortez4/nginx:latest
     ports:
-      - 81:80
+      - 80:80
     volumes:
       - .:/var/www/html
       - ./containers/nginx/log:/var/log/nginx
