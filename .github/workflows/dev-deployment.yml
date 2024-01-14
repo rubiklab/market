@@ -18,7 +18,7 @@ jobs:
 
       - name: Setting environment variables..
         run: |
-          echo "AWS_DEFAULT_REGION=${{ env.AWS_REGION }}" &gt;&gt; $GITHUB_ENV
+          echo "AWS_DEFAULT_REGION=${{ secrets.AWS_REGION }}" &gt;&gt; $GITHUB_ENV
           echo "AWS_SG_NAME=launch-wizard-1" &gt;&gt; $GITHUB_ENV
 
       - name: Add Github Actions IP to Security group
@@ -27,7 +27,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.DEV_GITHUB_ACTION_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_GITHUB_ACTION_SECRET }}
-          AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
 
       - name: Deploy
         uses: appleboy/ssh-action@v0.1.9
@@ -45,5 +45,5 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.DEV_GITHUB_ACTION_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_GITHUB_ACTION_SECRET }}
-          AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
         if: always()
