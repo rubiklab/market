@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy
       - uses: actions/checkout@v2
+      - name: Deploy
         env:
           PRIVATE_KEY: ${{ secrets.DEV_PRIVATE_KEY }}
           HOSTNAME: ${{secrets.DEV_HOST}}
