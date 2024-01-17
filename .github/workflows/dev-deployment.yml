@@ -12,33 +12,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get Github action IP
-        id: ip
-        uses: haythem/public-ip@v1.2
+      - name: Checkout source code
+        uses: actions/checkout@v2
 
-      - name: Add Github Actions IP to Security group
-        run: |
-          aws ec2 authorize-security-group-ingress --group-name launch-wizard-1 --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.DEV_GITHUB_ACTION_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_GITHUB_ACTION_SECRET }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
 
-      - name: Deploy
-        uses: appleboy/ssh-action@v0.1.9
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v21
         with:
-          host: ${{ secrets.DEV_HOST }}
-          port: 22
-          username: ${{ secrets.DEV_USER_NAME }}
-          key: ${{ secrets.DEV_PRIVATE_KEY }}
-          debug: true
-          script: "cd ~/market; docker-compose down; git pull origin main;  docker-compose up -d; docker-compose run php php artisan migrate;"
-
-      - name: Remove Github Actions IP from security group
-        run: |
-          aws ec2 revoke-security-group-ingress --group-name launch-wizard-1 --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.DEV_GITHUB_ACTION_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_GITHUB_ACTION_SECRET }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-        if: always()
+          aws_access_key: ${{ secrets.DEV_GITHUB_ACTION_KEY }}
+          aws_secret_key: ${{ secrets.DEV_GITHUB_ACTION_SECRET }}
+          application_name: Market_dev
+          environment_name: Marketdev-env
+          version_label: 1
+          region: ${{ secrets.AWS_REGION }}
+          deployment_package: deploy.zip
