@@ -26,6 +26,6 @@ jobs:
           application_name: Market_dev
           environment_name: Marketdev-env
           region: ${{ secrets.AWS_REGION }}
-          version_label: 1
-          use_existing_version_if_available: true
+          version_label: 1.11
+          use_existing_version_if_available: false
           deployment_package: deploy.zip
