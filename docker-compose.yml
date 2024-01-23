@@ -9,7 +9,7 @@ services:
         - USERID=${USERID:-1000}
         - GROUPID=${GROUPID:-1000}
     ports:
-      - 89:80
+      - 80:80
     volumes:
       - .:/var/www/html
       - ./containers/nginx/log:/var/log/nginx
