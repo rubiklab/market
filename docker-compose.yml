@@ -2,9 +2,14 @@ version: '3.8'
 
 services:
   nginx:
-    image: mortez4/nginx:latest
+    build:
+      context: .
+      dockerfile: containers/nginx/nginx.dockerfile
+      args:
+        - USERID=${USERID:-1000}
+        - GROUPID=${GROUPID:-1000}
     ports:
-      - 80:80
+      - 89:80
     volumes:
       - .:/var/www/html
       - ./containers/nginx/log:/var/log/nginx
@@ -14,7 +19,12 @@ services:
       - php
 
   php:
-    image: mortez4/php-fpm:8.2
+    build:
+      context: .
+      dockerfile: containers/php/php.dockerfile
+      args:
+        - USERID=${USERID:-1000}
+        - GROUPID=${GROUPID:-1000}
     volumes:
         - .:/var/www/html
         - ./containers/php/conf:/etc/php/conf.d
