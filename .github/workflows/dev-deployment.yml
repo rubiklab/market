@@ -25,7 +25,7 @@ jobs:
           aws_secret_key: ${{ secrets.DEV_GITHUB_ACTION_SECRET }}
           application_name: Market_dev
           environment_name: Marketdev-env
-          version_label: 1
+          version_label: 1.1
           use_existing_version_if_available: true
           region: ${{ secrets.AWS_REGION }}
           deployment_package: deploy.zip
