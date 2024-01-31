@@ -1,5 +1,5 @@
 #!/bin/bash
-chown -R USERID:GROUPID ./
+chown -R "$USERID:$GROUPID" ./
 
 docker-compose run assets npm install
 docker-compose run assets npm run build
