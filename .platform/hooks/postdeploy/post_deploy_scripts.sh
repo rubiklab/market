@@ -1,5 +1,5 @@
 #!/bin/bash
-chown -R "$USERID:$GROUPID" ./
+docker-compose run php chown -R "$USERID:$GROUPID" /var/www/html/
 
 docker-compose run assets npm install
 docker-compose run assets npm run build
