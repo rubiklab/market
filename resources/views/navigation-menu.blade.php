@@ -19,6 +19,7 @@
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                @auth
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ms-3 relative">
@@ -122,6 +123,14 @@
                         </x-slot>
                     </x-dropdown>
                 </div>
+                @else
+                <div class="ms-3 relative">
+                    <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                    @endif
+                </div>
+                @endauth
             </div>
 
             <!-- Hamburger -->
@@ -144,6 +153,7 @@
             </x-responsive-nav-link>
         </div>
 
+        @auth
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="flex items-center px-4">
@@ -215,5 +225,6 @@
                 @endif
             </div>
         </div>
+        @endauth
     </div>
 </nav>
