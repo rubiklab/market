@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Spatie\Image\Manipulations;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -14,7 +15,11 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Item extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes, InteractsWithMedia;
+    use HasFactory, SoftDeletes, InteractsWithMedia, HasUuids;
+
+    protected $primaryKey = 'uuid';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     public $appends = ['thumbImage', 'images'];
 

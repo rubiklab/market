@@ -4,16 +4,18 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>--}}
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-6 ">
+        @guest
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-6">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-l sm:rounded-lg">
                 <x-welcome />
             </div>
         </div>
+        @endguest
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-3">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @livewire('item-list')
         </div>
     </div>
+
 </x-app-layout>

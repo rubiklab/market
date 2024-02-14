@@ -6,10 +6,9 @@
     </h1>
 
     <p class="mt-6 text-gray-500 dark:text-gray-400 leading-relaxed">
-        Laravel Jetstream provides a beautiful, robust starting point for your next Laravel application. Laravel is designed
-        to help you build your application using a development environment that is simple, powerful, and enjoyable. We believe
-        you should love expressing your creativity through programming, so we have spent time carefully crafting the Laravel
-        ecosystem to be a breath of fresh air. We hope you love it.
+        This is your destination for buying and selling pre-owned car parts and vehicles, as well as connecting with reputable sellers.
+        This platform offers an easy-to-use interface for listing your items, ensuring a hassle-free experience whether you're buying or selling.<br>
+        <a href="{{ route('register') }}" class="hover:underline text-blue-500">Join Salvage Market today</a> to discover a convenient and efficient way to find the parts you need or sell your surplus inventory.
     </p>
 </div>
 
