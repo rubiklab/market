@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\HasManyThrough;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 
@@ -33,7 +34,7 @@ class Item extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'title', 'sub_title', 'description'
+        'uuid', 'title', 'sub_title', 'description'
     ];
 
     /**
@@ -46,6 +47,8 @@ class Item extends Resource
     {
         return [
             ID::make()->sortable(),
+
+            URL::make('Preview', fn () => route('item.view', $this->uuid)),
 
             Boolean::make('Published', 'published_at', function () {
                 return $this->published_at != "";
@@ -80,7 +83,7 @@ class Item extends Resource
                 }
             }),
 
-            Images::make('Images') // second parameter is the media collection name
+            Images::make('Images', 'images') // second parameter is the media collection name
                 // ->conversionOnPreview('medium-size') // conversion used to display the "original" image
                 ->conversionOnDetailView('thumb') // conversion used on the model's view
                 ->conversionOnIndexView('thumb') // conversion used to display the image on the model's index page
@@ -92,15 +95,15 @@ class Item extends Resource
                 ->setFileName(function ($originalFilename, $extension, $model) {
                     return md5($originalFilename) . '.' . $extension;
                 })
-                ->croppingConfigs(['aspectRatio' => 16 / 9])
+                ->croppingConfigs(['aspectRatio' => 4 / 3])
                 ->showStatistics()
                 ->croppable(true),
 
-            Text::make('Available Items', function () {
+            /*Text::make('Available Items', function () {
                 return implode("<br>", $this->subItems->pluck('title')->all());
             })->asHtml(),
 
-            HasMany::make('SubItems', 'subItems')->collapsable(),
+            HasMany::make('SubItems', 'subItems')->collapsable(),*/
         ];
     }
 

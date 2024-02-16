@@ -17,11 +17,25 @@ class Item extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia, HasUuids;
 
-    protected $primaryKey = 'uuid';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    protected $primaryKey = 'id';
+    //public $incrementing = false;
+    //protected $keyType = 'string';
 
     public $appends = ['thumbImage', 'images'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('sort', function (Builder $builder) {
+            $builder->orderBy('published_at', 'desc');
+        });
+    }
+
+    public function uniqueIds(): array
+    {
+        return ['uuid'];
+    }
 
     public function scopeAvailable(Builder $query): void
     {
@@ -31,13 +45,13 @@ class Item extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-            //->fit(Manipulations::FIT_CROP, 300, 300)
+            ->fit(Manipulations::FIT_CROP, 300, 300)
             ->width(300)
             ->height(300)
             ->nonQueued();
 
-        $this->addMediaConversion('slider')
-            //->fit(Manipulations::FIT_CROP, 1200, 800)
+        $this->addMediaConversion('main')
+            ->fit(Manipulations::FIT_CROP, 1200, 800)
             ->width(1200)
             ->height(800)
             ->nonQueued();
@@ -61,13 +75,14 @@ class Item extends Model implements HasMedia
         $imageUrls = [];
 
         foreach ($this->getMedia('images') as $media) {
-            $imageUrls[] = $media->getUrl('slider');
+
+            $imageUrls[] = $media->getUrl('main');
         }
 
         return $imageUrls;
     }
 
-    public function subItems()
+/*    public function subItems()
     {
         return $this->hasMany(SubItem::class);
     }
@@ -75,5 +90,5 @@ class Item extends Model implements HasMedia
     public function catalogues(): HasManyThrough
     {
         return $this->hasManyThrough(Catalogue::class, SubItem::class, 'item_id', 'id', 'id', 'catalogue_id');
-    }
+    }*/
 }

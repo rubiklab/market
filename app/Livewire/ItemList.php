@@ -30,7 +30,6 @@ class ItemList extends Component
     {
         $items = Item::take($this->currentRecords)->get();
 
-
         Cookie::queue(self::$COOKIE_KEY, $this->currentRecords);
         return view('livewire.item-list', compact('items'));
     }

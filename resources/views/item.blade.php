@@ -13,12 +13,11 @@
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-3/5">
                             <div class="sticky top-0 z-50 overflow-hidden ">
+                                @foreach($item->images as $image)
                                 <div class="relative mb-6 lg:mb-10 lg:h-2/4 ">
-                                    <img src="https://i.postimg.cc/PqYpFTfy/pexels-melvin-buezo-2529148.jpg" alt="" class="object-cover w-full lg:h-full ">
+                                    <img src="{{ $image }}" alt="" class="object-cover w-full lg:h-full ">
                                 </div>
-                                <div class="relative mb-6 lg:mb-10 lg:h-2/4 ">
-                                    <img src="https://i.postimg.cc/PqYpFTfy/pexels-melvin-buezo-2529148.jpg" alt="" class="object-cover w-full lg:h-full ">
-                                </div>
+                                @endforeach
                                 {{--<div class="flex-wrap hidden md:flex ">
                                     <div class="w-1/2 p-2 sm:w-1/4">
                                         <a href="#" class="block border border-blue-300 dark:border-transparent dark:hover:border-blue-300 hover:border-blue-300">
